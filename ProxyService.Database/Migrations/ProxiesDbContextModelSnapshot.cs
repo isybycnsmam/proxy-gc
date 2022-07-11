@@ -145,7 +145,7 @@ namespace ProxyService.Database.Migrations
                         new
                         {
                             Id = 2,
-                            Description = "Downloads ~2137 proxies from 4 html sub-pages",
+                            Description = "Downloads ~700 proxies from 4 html sub-pages",
                             IsDisabled = false,
                             Name = "ProxyOrg"
                         });

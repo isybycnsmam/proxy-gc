@@ -45,23 +45,32 @@ namespace ProxyService.Checking.Ping
 
         public CheckingResult ComplexPing(Proxy proxy, int checkingMethodId)
         {
-            var pingSender = new System.Net.NetworkInformation.Ping();
-
-            var data = "abcdefghijklmnoprstuwxyz12345678";
-            var buffer = Encoding.ASCII.GetBytes(data);
-
-            var options = new PingOptions(64, true);
-
-            var reply = pingSender.Send(proxy.Ip, timeout: 10000, buffer, options);
-            reply = reply.Status == IPStatus.Success ? reply : null;
-
-            return new CheckingResult()
+            var checkingResult = new CheckingResult()
             {
                 ProxyId = proxy.Id,
                 CheckingMethodId = checkingMethodId,
-                Result = reply is not null,
-                ResponseTime = Convert.ToInt32(reply?.RoundtripTime ?? 0),
+                Result = false,
+                ResponseTime = 0,
             };
+
+            try
+            {
+                var pingSender = new System.Net.NetworkInformation.Ping();
+                var data = "abcdefghijklmnoprstuwxyz12345678";
+                var buffer = Encoding.ASCII.GetBytes(data);
+                var options = new PingOptions(64, true);
+
+                var reply = pingSender.Send(proxy.Ip, timeout: 10000, buffer, options);
+
+                if (reply.Status == IPStatus.Success)
+                {
+                    checkingResult.Result = true;
+                    checkingResult.ResponseTime = Convert.ToInt32(reply.RoundtripTime);
+                }
+            }
+            catch { }
+
+            return checkingResult;
         }
     }
 }

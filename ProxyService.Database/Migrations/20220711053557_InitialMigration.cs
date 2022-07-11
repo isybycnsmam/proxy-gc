@@ -121,7 +121,7 @@ namespace ProxyService.Database.Migrations
                 values: new object[,]
                 {
                     { 1, "Downloads ~400 proxies from txt file", false, "SpysOne" },
-                    { 2, "Downloads ~2137 proxies from 4 html sub-pages", false, "ProxyOrg" }
+                    { 2, "Downloads ~700 proxies from 4 html sub-pages", false, "ProxyOrg" }
                 });
 
             migrationBuilder.CreateIndex(

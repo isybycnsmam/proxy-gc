@@ -11,7 +11,7 @@ using ProxyService.Database;
 namespace ProxyService.Database.Migrations
 {
     [DbContext(typeof(ProxiesDbContext))]
-    [Migration("20220710162451_InitialMigration")]
+    [Migration("20220711053557_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,7 +147,7 @@ namespace ProxyService.Database.Migrations
                         new
                         {
                             Id = 2,
-                            Description = "Downloads ~2137 proxies from 4 html sub-pages",
+                            Description = "Downloads ~700 proxies from 4 html sub-pages",
                             IsDisabled = false,
                             Name = "ProxyOrg"
                         });
