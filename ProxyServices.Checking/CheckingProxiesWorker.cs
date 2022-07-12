@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using ProxyService.Database;
 using ProxyService.Checking.Interfaces;
 using Autofac.Features.OwnedInstances;
+using ProxyService.Core.Models;
+using System.Diagnostics;
 
 namespace ProxyService.Checking
 {
@@ -32,10 +34,15 @@ namespace ProxyService.Checking
                 try
                 {
                     _logger.LogInformation("Starting checking run at: {time}", DateTime.Now);
-
                     using var dbContext = _proxiesDbContextFactory();
                     var proxiesToCheck = await dbContext.Value.Proxies.ToListAsync(stoppingToken);
 
+                    _logger.LogInformation("Adding checking run entry");
+                    var checkingRun = new CheckingRun();
+                    await dbContext.Value.CheckingRuns.AddAsync(checkingRun, stoppingToken);
+                    await dbContext.Value.SaveChangesAsync(stoppingToken);
+
+                    var stopwatch = new Stopwatch();
                     foreach (var proxyChecker in _proxiesCheckers)
                     {
                         var checkingMethods = await dbContext.Value.CheckingMethods
@@ -49,12 +56,28 @@ namespace ProxyService.Checking
                         {
                             try
                             {
+                                _logger.LogInformation("Adding checking method session entry for {0}({1})", proxyChecker.Name, checkingMethod.Description);
+                                var localhostCheckingResult = proxyChecker.TestProxy(proxy: null, checkingMethod, checkingSessionId: 0);
+                                var checkingMethodSession = new CheckingMethodSession()
+                                {
+                                    LocalhostResult = localhostCheckingResult.Result,
+                                    LocalhostResponseTime = localhostCheckingResult.ResponseTime,
+                                    CheckingMethodId = checkingMethod.Id,
+                                    CheckingRunId = checkingRun.Id,
+                                };
+                                await dbContext.Value.CheckingMethodSessions.AddAsync(checkingMethodSession, stoppingToken);
+                                await dbContext.Value.SaveChangesAsync(stoppingToken);
+
+                                stopwatch.Restart();
                                 _logger.LogInformation("Checking proxies using {0}({1}) service", proxyChecker.Name, checkingMethod.Description);
-                                var checkingResults = proxyChecker.CheckProxiesAsync(proxiesToCheck, checkingMethod, stoppingToken);
+                                var checkingResults = proxyChecker.CheckProxiesAsync(proxiesToCheck, checkingMethod, checkingMethodSession, stoppingToken);
                                 var proxiesPassedCount = checkingResults.Where(e => e.Result).Count();
-                                _logger.LogInformation("Successfully checked all proxies. Passed count: {0}", proxiesPassedCount);
+                                _logger.LogInformation("Successfully checked all proxies. Elapsed: {0}. Passed count: {1}", stopwatch.ElapsedMilliseconds, proxiesPassedCount);
+                                stopwatch.Stop();
 
                                 _logger.LogInformation("Adding proxies results to db");
+                                checkingMethodSession.Elapsed = (int)stopwatch.ElapsedMilliseconds;
+                                dbContext.Value.CheckingMethodSessions.Update(checkingMethodSession);
                                 await dbContext.Value.CheckingResults.AddRangeAsync(checkingResults, stoppingToken);
                                 await dbContext.Value.SaveChangesAsync(stoppingToken);
                                 _logger.LogInformation("Successfully added checking results to db");

@@ -11,7 +11,7 @@ using ProxyService.Database;
 namespace ProxyService.Database.Migrations
 {
     [DbContext(typeof(ProxiesDbContext))]
-    [Migration("20220711053557_InitialMigration")]
+    [Migration("20220712005917_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,12 +39,11 @@ namespace ProxyService.Database.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("TestTarget")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CheckingMethods");
+                    b.ToTable("checking_methods", (string)null);
 
                     b.HasData(
                         new
@@ -52,8 +51,7 @@ namespace ProxyService.Database.Migrations
                             Id = 1,
                             Description = "Tcp",
                             IsDisabled = false,
-                            Name = "Ping",
-                            TestTarget = ""
+                            Name = "Ping"
                         },
                         new
                         {
@@ -81,7 +79,7 @@ namespace ProxyService.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ProxyService.Core.Models.CheckingResult", b =>
+            modelBuilder.Entity("ProxyService.Core.Models.CheckingMethodSession", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -90,9 +88,52 @@ namespace ProxyService.Database.Migrations
                     b.Property<int>("CheckingMethodId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CheckingRunId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Elapsed")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Ignore")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("LocalhostResponseTime")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("LocalhostResult")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CheckingMethodId");
+
+                    b.HasIndex("CheckingRunId");
+
+                    b.ToTable("checking_method_sessions", (string)null);
+                });
+
+            modelBuilder.Entity("ProxyService.Core.Models.CheckingResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("CheckingMethodSessionsId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Ignore")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("ProxyId")
                         .HasColumnType("int");
@@ -105,11 +146,32 @@ namespace ProxyService.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CheckingMethodId");
+                    b.HasIndex("CheckingMethodSessionsId");
 
                     b.HasIndex("ProxyId");
 
-                    b.ToTable("CheckingResults");
+                    b.ToTable("checking_results", (string)null);
+                });
+
+            modelBuilder.Entity("ProxyService.Core.Models.CheckingRun", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Ignore")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("checking_runs", (string)null);
                 });
 
             modelBuilder.Entity("ProxyService.Core.Models.GettingMethod", b =>
@@ -134,7 +196,7 @@ namespace ProxyService.Database.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("GettingMethods");
+                    b.ToTable("getting_methods", (string)null);
 
                     b.HasData(
                         new
@@ -185,14 +247,33 @@ namespace ProxyService.Database.Migrations
                     b.HasIndex("Ip", "Port")
                         .IsUnique();
 
-                    b.ToTable("Proxies");
+                    b.ToTable("proxies", (string)null);
+                });
+
+            modelBuilder.Entity("ProxyService.Core.Models.CheckingMethodSession", b =>
+                {
+                    b.HasOne("ProxyService.Core.Models.CheckingMethod", "CheckingMethod")
+                        .WithMany("CheckingMethodSessions")
+                        .HasForeignKey("CheckingMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProxyService.Core.Models.CheckingRun", "CheckingRun")
+                        .WithMany("CheckingMethodSessions")
+                        .HasForeignKey("CheckingRunId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CheckingMethod");
+
+                    b.Navigation("CheckingRun");
                 });
 
             modelBuilder.Entity("ProxyService.Core.Models.CheckingResult", b =>
                 {
-                    b.HasOne("ProxyService.Core.Models.CheckingMethod", "CheckingMethod")
+                    b.HasOne("ProxyService.Core.Models.CheckingMethodSession", "CheckingMethodSessions")
                         .WithMany("CheckingResults")
-                        .HasForeignKey("CheckingMethodId")
+                        .HasForeignKey("CheckingMethodSessionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -202,14 +283,24 @@ namespace ProxyService.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CheckingMethod");
+                    b.Navigation("CheckingMethodSessions");
 
                     b.Navigation("Proxy");
                 });
 
             modelBuilder.Entity("ProxyService.Core.Models.CheckingMethod", b =>
                 {
+                    b.Navigation("CheckingMethodSessions");
+                });
+
+            modelBuilder.Entity("ProxyService.Core.Models.CheckingMethodSession", b =>
+                {
                     b.Navigation("CheckingResults");
+                });
+
+            modelBuilder.Entity("ProxyService.Core.Models.CheckingRun", b =>
+                {
+                    b.Navigation("CheckingMethodSessions");
                 });
 
             modelBuilder.Entity("ProxyService.Core.Models.Proxy", b =>

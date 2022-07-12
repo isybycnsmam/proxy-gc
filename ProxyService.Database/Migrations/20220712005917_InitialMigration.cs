@@ -14,14 +14,14 @@ namespace ProxyService.Database.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "CheckingMethods",
+                name: "checking_methods",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TestTarget = table.Column<string>(type: "longtext", nullable: false)
+                    TestTarget = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -29,12 +29,30 @@ namespace ProxyService.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CheckingMethods", x => x.Id);
+                    table.PrimaryKey("PK_checking_methods", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "GettingMethods",
+                name: "checking_runs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Ignore = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_checking_runs", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "getting_methods",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -47,12 +65,12 @@ namespace ProxyService.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GettingMethods", x => x.Id);
+                    table.PrimaryKey("PK_getting_methods", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Proxies",
+                name: "proxies",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -69,54 +87,90 @@ namespace ProxyService.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Proxies", x => x.Id);
+                    table.PrimaryKey("PK_proxies", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "CheckingResults",
+                name: "checking_method_sessions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Ignore = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Elapsed = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    LocalhostResult = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    LocalhostResponseTime = table.Column<int>(type: "int", nullable: false),
+                    CheckingMethodId = table.Column<int>(type: "int", nullable: false),
+                    CheckingRunId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_checking_method_sessions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_checking_method_sessions_checking_methods_CheckingMethodId",
+                        column: x => x.CheckingMethodId,
+                        principalTable: "checking_methods",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_checking_method_sessions_checking_runs_CheckingRunId",
+                        column: x => x.CheckingRunId,
+                        principalTable: "checking_runs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "checking_results",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Result = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ResponseTime = table.Column<int>(type: "int", nullable: false),
+                    Ignore = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ProxyId = table.Column<int>(type: "int", nullable: false),
-                    CheckingMethodId = table.Column<int>(type: "int", nullable: false)
+                    CheckingMethodSessionsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CheckingResults", x => x.Id);
+                    table.PrimaryKey("PK_checking_results", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CheckingResults_CheckingMethods_CheckingMethodId",
-                        column: x => x.CheckingMethodId,
-                        principalTable: "CheckingMethods",
+                        name: "FK_checking_results_checking_method_sessions_CheckingMethodSess~",
+                        column: x => x.CheckingMethodSessionsId,
+                        principalTable: "checking_method_sessions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CheckingResults_Proxies_ProxyId",
+                        name: "FK_checking_results_proxies_ProxyId",
                         column: x => x.ProxyId,
-                        principalTable: "Proxies",
+                        principalTable: "proxies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.InsertData(
-                table: "CheckingMethods",
+                table: "checking_methods",
                 columns: new[] { "Id", "Description", "IsDisabled", "Name", "TestTarget" },
                 values: new object[,]
                 {
-                    { 1, "Tcp", false, "Ping", "" },
+                    { 1, "Tcp", false, "Ping", null },
                     { 2, "Https", false, "Site", "https://www.proxy-listen.de/azenv.php" },
                     { 3, "Http", false, "Site", "http://azenv.net/" },
                     { 4, "Instagram", false, "Site", "https://www.instagram.com/" }
                 });
 
             migrationBuilder.InsertData(
-                table: "GettingMethods",
+                table: "getting_methods",
                 columns: new[] { "Id", "Description", "IsDisabled", "Name" },
                 values: new object[,]
                 {
@@ -125,24 +179,34 @@ namespace ProxyService.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CheckingResults_CheckingMethodId",
-                table: "CheckingResults",
+                name: "IX_checking_method_sessions_CheckingMethodId",
+                table: "checking_method_sessions",
                 column: "CheckingMethodId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CheckingResults_ProxyId",
-                table: "CheckingResults",
+                name: "IX_checking_method_sessions_CheckingRunId",
+                table: "checking_method_sessions",
+                column: "CheckingRunId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_checking_results_CheckingMethodSessionsId",
+                table: "checking_results",
+                column: "CheckingMethodSessionsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_checking_results_ProxyId",
+                table: "checking_results",
                 column: "ProxyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GettingMethods_Name",
-                table: "GettingMethods",
+                name: "IX_getting_methods_Name",
+                table: "getting_methods",
                 column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Proxies_Ip_Port",
-                table: "Proxies",
+                name: "IX_proxies_Ip_Port",
+                table: "proxies",
                 columns: new[] { "Ip", "Port" },
                 unique: true);
         }
@@ -150,16 +214,22 @@ namespace ProxyService.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CheckingResults");
+                name: "checking_results");
 
             migrationBuilder.DropTable(
-                name: "GettingMethods");
+                name: "getting_methods");
 
             migrationBuilder.DropTable(
-                name: "CheckingMethods");
+                name: "checking_method_sessions");
 
             migrationBuilder.DropTable(
-                name: "Proxies");
+                name: "proxies");
+
+            migrationBuilder.DropTable(
+                name: "checking_methods");
+
+            migrationBuilder.DropTable(
+                name: "checking_runs");
         }
     }
 }

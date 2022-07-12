@@ -23,6 +23,7 @@ namespace ProxyService.Checking.Ping
         public List<CheckingResult> CheckProxiesAsync(
             List<Proxy> proxies,
             CheckingMethod checkingMethod,
+            CheckingMethodSession checkingSession,
             CancellationToken cancellationToken)
         {
             _progressNotifierService.StartNotifying(
@@ -34,7 +35,7 @@ namespace ProxyService.Checking.Ping
                 .AsParallel()
                 .WithDegreeOfParallelism(CHECKING_DEGREE_OF_PARALLELISM)
                 .WithCancellation(cancellationToken)
-                .Select(proxy => ComplexPing(proxy, checkingMethod.Id))
+                .Select(proxy => TestProxy(proxy, checkingMethod, checkingSession.Id))
                 .Select(_progressNotifierService.ReportProgress)
                 .ToList();
 
@@ -43,12 +44,12 @@ namespace ProxyService.Checking.Ping
             return checkingResults;
         }
 
-        public CheckingResult ComplexPing(Proxy proxy, int checkingMethodId)
+        public CheckingResult TestProxy(Proxy proxy, CheckingMethod checkingMethod, int checkingSessionId)
         {
             var checkingResult = new CheckingResult()
             {
-                ProxyId = proxy.Id,
-                CheckingMethodId = checkingMethodId,
+                ProxyId = proxy?.Id ?? 0,
+                CheckingMethodSessionsId = checkingSessionId,
                 Result = false,
                 ResponseTime = 0,
             };
@@ -59,6 +60,9 @@ namespace ProxyService.Checking.Ping
                 var data = "abcdefghijklmnoprstuwxyz12345678";
                 var buffer = Encoding.ASCII.GetBytes(data);
                 var options = new PingOptions(64, true);
+
+                if (proxy is null)
+                    proxy = new Proxy() { Ip = "localhost" };
 
                 var reply = pingSender.Send(proxy.Ip, timeout: 10000, buffer, options);
 

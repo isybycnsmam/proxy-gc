@@ -23,6 +23,7 @@ namespace ProxyService.Checking.Site
         public List<CheckingResult> CheckProxiesAsync(
             List<Proxy> proxies,
             CheckingMethod checkingMethod,
+            CheckingMethodSession checkingSession,
             CancellationToken cancellationToken)
         {
             _progressNotifierService.StartNotifying(
@@ -35,7 +36,7 @@ namespace ProxyService.Checking.Site
                 .WithDegreeOfParallelism(CHECKING_DEGREE_OF_PARALLELISM)
                 .WithCancellation(cancellationToken)
                 .WithMergeOptions(ParallelMergeOptions.NotBuffered)
-                .Select(proxy => TestSite(proxy, checkingMethod))
+                .Select(proxy => TestProxy(proxy, checkingMethod, checkingSession.Id))
                 .Select(_progressNotifierService.ReportProgress)
                 .ToList();
 
@@ -44,12 +45,12 @@ namespace ProxyService.Checking.Site
             return checkingResults;
         }
 
-        public CheckingResult TestSite(Proxy proxy, CheckingMethod checkingMethod)
+        public CheckingResult TestProxy(Proxy proxy, CheckingMethod checkingMethod, int checkingSessionId)
         {
             var checkingResult = new CheckingResult()
             {
-                ProxyId = proxy.Id,
-                CheckingMethodId = checkingMethod.Id,
+                ProxyId = proxy?.Id ?? 0,
+                CheckingMethodSessionsId = checkingSessionId,
                 Result = false,
                 ResponseTime = 0,
             };
@@ -57,8 +58,10 @@ namespace ProxyService.Checking.Site
             try
             {
                 HttpWebRequest request = WebRequest.Create(checkingMethod.TestTarget) as HttpWebRequest;
-                request.Proxy = new WebProxy(proxy.Ip, proxy.Port);
                 request.Timeout = 10000;
+                
+                if (proxy is not null)
+                    request.Proxy = new WebProxy(proxy.Ip, proxy.Port);
 
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
