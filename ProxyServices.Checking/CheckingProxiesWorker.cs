@@ -35,7 +35,19 @@ namespace ProxyService.Checking
                 {
                     _logger.LogInformation("Starting checking run at: {time}", DateTime.Now);
                     using var dbContext = _proxiesDbContextFactory();
-                    var proxiesToCheck = await dbContext.Value.Proxies.ToListAsync(stoppingToken);
+                    var weekInThePast = DateTime.Now.AddDays(-7);
+                    var proxiesToCheck = await dbContext.Value.Proxies
+                        .Where(e => 
+                            !e.IsDeleted || 
+                            e.Modified < weekInThePast)
+                        .ToListAsync(stoppingToken);
+
+                    if (proxiesToCheck.Count == 0)
+                    {
+                        _logger.LogInformation("No proxies to chheck, retrying in 2 minutes");
+                        await Task.Delay(TimeSpan.FromMinutes(2), stoppingToken);
+                        continue;
+                    }
 
                     _logger.LogInformation("Adding checking run entry");
                     var checkingRun = new CheckingRun();

@@ -12,7 +12,7 @@
         public int ProxyId { get; set; }
         public Proxy Proxy { get; set; }
 
-        public int CheckingMethodSessionsId { get; set; }
-        public CheckingMethodSession CheckingMethodSessions { get; set; }
+        public int CheckingMethodSessionId { get; set; }
+        public CheckingMethodSession CheckingMethodSession { get; set; }
     }
 }

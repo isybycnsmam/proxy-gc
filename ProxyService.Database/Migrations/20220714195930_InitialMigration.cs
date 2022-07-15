@@ -82,8 +82,11 @@ namespace ProxyService.Database.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Anonymity = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn)
                 },
                 constraints: table =>
                 {
@@ -138,14 +141,14 @@ namespace ProxyService.Database.Migrations
                     Created = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ProxyId = table.Column<int>(type: "int", nullable: false),
-                    CheckingMethodSessionsId = table.Column<int>(type: "int", nullable: false)
+                    CheckingMethodSessionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_checking_results", x => x.Id);
                     table.ForeignKey(
                         name: "FK_checking_results_checking_method_sessions_CheckingMethodSess~",
-                        column: x => x.CheckingMethodSessionsId,
+                        column: x => x.CheckingMethodSessionId,
                         principalTable: "checking_method_sessions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -189,9 +192,9 @@ namespace ProxyService.Database.Migrations
                 column: "CheckingRunId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_checking_results_CheckingMethodSessionsId",
+                name: "IX_checking_results_CheckingMethodSessionId",
                 table: "checking_results",
-                column: "CheckingMethodSessionsId");
+                column: "CheckingMethodSessionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_checking_results_ProxyId",

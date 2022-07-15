@@ -50,7 +50,7 @@ namespace ProxyService.Checking.Site
             var checkingResult = new CheckingResult()
             {
                 ProxyId = proxy?.Id ?? 0,
-                CheckingMethodSessionsId = checkingSessionId,
+                CheckingMethodSessionId = checkingSessionId,
                 Result = false,
                 ResponseTime = 0,
             };

@@ -13,7 +13,10 @@ namespace ProxyService.Core.Models
         public string CountryCode { get; set; }
         public ProxyType Type { get; set; }
         public ProxyAnonymity Anonymity { get; set; }
+
+        public bool IsDeleted { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
+        public DateTime Modified { get; set; }
 
         public List<CheckingResult> CheckingResults { get; set; }
     }

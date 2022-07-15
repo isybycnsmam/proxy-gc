@@ -16,6 +16,7 @@ namespace ProxyService.Database
                 entity.HasKey(p => p.Id);
                 entity.Property(p => p.Id).ValueGeneratedOnAdd();
                 entity.Property(p => p.Created).ValueGeneratedOnAdd();
+                entity.Property(p => p.Modified).ValueGeneratedOnAddOrUpdate();
                 entity.HasIndex(p => new { p.Ip, p.Port }).IsUnique();
                 entity.Ignore(p => p.IpPort);
             });
@@ -87,9 +88,9 @@ namespace ProxyService.Database
                     .WithMany(p => p.CheckingResults)
                     .HasForeignKey(cr => cr.ProxyId);
 
-                entity.HasOne(cr => cr.CheckingMethodSessions)
+                entity.HasOne(cr => cr.CheckingMethodSession)
                     .WithMany(cms => cms.CheckingResults)
-                    .HasForeignKey(cr => cr.CheckingMethodSessionsId);
+                    .HasForeignKey(cr => cr.CheckingMethodSessionId);
             });
         }
 

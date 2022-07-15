@@ -11,8 +11,8 @@ using ProxyService.Database;
 namespace ProxyService.Database.Migrations
 {
     [DbContext(typeof(ProxiesDbContext))]
-    [Migration("20220712005917_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220714195935_AddCustomViews")]
+    partial class AddCustomViews
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -125,7 +125,7 @@ namespace ProxyService.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("CheckingMethodSessionsId")
+                    b.Property<int>("CheckingMethodSessionId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
@@ -146,7 +146,7 @@ namespace ProxyService.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CheckingMethodSessionsId");
+                    b.HasIndex("CheckingMethodSessionId");
 
                     b.HasIndex("ProxyId");
 
@@ -236,6 +236,13 @@ namespace ProxyService.Database.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("Modified")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int>("Port")
                         .HasColumnType("int");
 
@@ -271,9 +278,9 @@ namespace ProxyService.Database.Migrations
 
             modelBuilder.Entity("ProxyService.Core.Models.CheckingResult", b =>
                 {
-                    b.HasOne("ProxyService.Core.Models.CheckingMethodSession", "CheckingMethodSessions")
+                    b.HasOne("ProxyService.Core.Models.CheckingMethodSession", "CheckingMethodSession")
                         .WithMany("CheckingResults")
-                        .HasForeignKey("CheckingMethodSessionsId")
+                        .HasForeignKey("CheckingMethodSessionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -283,7 +290,7 @@ namespace ProxyService.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CheckingMethodSessions");
+                    b.Navigation("CheckingMethodSession");
 
                     b.Navigation("Proxy");
                 });
