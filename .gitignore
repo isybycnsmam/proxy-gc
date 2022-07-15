@@ -396,5 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-ProxyService/appsettings.Development.json
+.editorconfig
+src/ProxyService/appsettings.Development.json
 .vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.editorconfig
