@@ -13,6 +13,8 @@ namespace ProxyService.Database.Migrations
                 (SELECT 
                     proxy_service.checking_runs.Id AS RunId 
                 FROM proxy_service.checking_runs 
+                HAVING 
+                    (SELECT COUNT(*) FROM checking_runs) > 4
                 ORDER BY proxy_service.checking_runs.Created DESC 
                 LIMIT 4 
                 OFFSET 1)
