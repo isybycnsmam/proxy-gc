@@ -16,7 +16,7 @@ namespace ProxyService.Core.Models
 
         public bool IsDeleted { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
-        public DateTime Modified { get; set; }
+        public DateTime LastChecked { get; set; }
 
         public List<CheckingResult> CheckingResults { get; set; }
     }

@@ -85,8 +85,7 @@ namespace ProxyService.Database.Migrations
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Modified = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn)
+                    LastChecked = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -167,9 +166,8 @@ namespace ProxyService.Database.Migrations
                 values: new object[,]
                 {
                     { 1, "Tcp", false, "Ping", null },
-                    { 2, "Https", false, "Site", "https://www.proxy-listen.de/azenv.php" },
-                    { 3, "Http", false, "Site", "http://azenv.net/" },
-                    { 4, "Instagram", false, "Site", "https://www.instagram.com/" }
+                    { 2, "Https", false, "Site", "https://wtfismyip.com/text" },
+                    { 3, "Http", false, "Site", "http://ifconfig.io/ip" }
                 });
 
             migrationBuilder.InsertData(
@@ -177,8 +175,9 @@ namespace ProxyService.Database.Migrations
                 columns: new[] { "Id", "Description", "IsDisabled", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Downloads ~400 proxies from txt file", false, "SpysOne" },
-                    { 2, "Downloads ~700 proxies from 4 html sub-pages", false, "ProxyOrg" }
+                    { 1, "Downloads ~400 proxies from txt file", false, "TextSpysOne" },
+                    { 2, "Downloads 500 ssl proxies from html page", false, "HttpsSpysOne" },
+                    { 3, "Downloads ~700 proxies from 4 html sub-pages", false, "ProxyOrg" }
                 });
 
             migrationBuilder.CreateIndex(

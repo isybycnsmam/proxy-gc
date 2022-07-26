@@ -37,9 +37,9 @@ namespace ProxyService.Checking
                     using var dbContext = _proxiesDbContextFactory();
                     var weekInThePast = DateTime.Now.AddDays(-7);
                     var proxiesToCheck = await dbContext.Value.Proxies
-                        .Where(e => 
-                            !e.IsDeleted || 
-                            e.Modified < weekInThePast)
+                        .Where(e =>
+                            !e.IsDeleted ||
+                            e.LastChecked < weekInThePast)
                         .ToListAsync(stoppingToken);
 
                     if (proxiesToCheck.Count == 0)
@@ -89,7 +89,6 @@ namespace ProxyService.Checking
 
                                 _logger.LogInformation("Adding proxies results to db");
                                 checkingMethodSession.Elapsed = (int)stopwatch.ElapsedMilliseconds;
-                                dbContext.Value.CheckingMethodSessions.Update(checkingMethodSession);
                                 await dbContext.Value.CheckingResults.AddRangeAsync(checkingResults, stoppingToken);
                                 await dbContext.Value.SaveChangesAsync(stoppingToken);
                                 _logger.LogInformation("Successfully added checking results to db");
@@ -100,6 +99,11 @@ namespace ProxyService.Checking
                             }
                         }
                     }
+
+                    _logger.LogInformation("Updating last modified date for deleted proxies"); 
+                    foreach (var proxy in proxiesToCheck)
+                        proxy.LastChecked = DateTime.Now;
+                    await dbContext.Value.SaveChangesAsync(stoppingToken);
 
                     _logger.LogInformation("Checking run completed. Next run at: {time}", DateTime.Now.Add(RUN_DELAY));
                 }

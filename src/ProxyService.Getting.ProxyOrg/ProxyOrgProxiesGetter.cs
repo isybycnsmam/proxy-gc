@@ -37,7 +37,7 @@ namespace ProxyService.Getting.ProxyOrg
             foreach (var site in _subSites)
             {
                 _logger.LogInformation("Getting proxies from ProxyOrg sub-page {0}", site);
-                var response = await client.GetStringAsync(site);
+                var response = await client.GetStringAsync(site, cancellationToken);
                 var matches = Regex.Matches(response, SINGLE_PROXY_REGEX, RegexOptions.None, TimeSpan.FromSeconds(10));
                 _logger.LogInformation("Successfully downloaded {0} proxies from ProxyOrg sub-page {1}", matches.Count, site);
 

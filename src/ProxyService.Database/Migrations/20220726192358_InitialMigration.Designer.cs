@@ -11,8 +11,8 @@ using ProxyService.Database;
 namespace ProxyService.Database.Migrations
 {
     [DbContext(typeof(ProxiesDbContext))]
-    [Migration("20220714195935_AddCustomViews")]
-    partial class AddCustomViews
+    [Migration("20220726192358_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,7 +59,7 @@ namespace ProxyService.Database.Migrations
                             Description = "Https",
                             IsDisabled = false,
                             Name = "Site",
-                            TestTarget = "https://www.proxy-listen.de/azenv.php"
+                            TestTarget = "https://wtfismyip.com/text"
                         },
                         new
                         {
@@ -67,15 +67,7 @@ namespace ProxyService.Database.Migrations
                             Description = "Http",
                             IsDisabled = false,
                             Name = "Site",
-                            TestTarget = "http://azenv.net/"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Instagram",
-                            IsDisabled = false,
-                            Name = "Site",
-                            TestTarget = "https://www.instagram.com/"
+                            TestTarget = "http://ifconfig.io/ip"
                         });
                 });
 
@@ -204,11 +196,18 @@ namespace ProxyService.Database.Migrations
                             Id = 1,
                             Description = "Downloads ~400 proxies from txt file",
                             IsDisabled = false,
-                            Name = "SpysOne"
+                            Name = "TextSpysOne"
                         },
                         new
                         {
                             Id = 2,
+                            Description = "Downloads 500 ssl proxies from html page",
+                            IsDisabled = false,
+                            Name = "HttpsSpysOne"
+                        },
+                        new
+                        {
+                            Id = 3,
                             Description = "Downloads ~700 proxies from 4 html sub-pages",
                             IsDisabled = false,
                             Name = "ProxyOrg"
@@ -239,8 +238,7 @@ namespace ProxyService.Database.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("Modified")
-                        .ValueGeneratedOnAddOrUpdate()
+                    b.Property<DateTime>("LastChecked")
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("Port")

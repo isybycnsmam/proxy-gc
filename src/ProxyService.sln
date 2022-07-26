@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyServices.Checking", "P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Getting", "ProxyService.Getting\ProxyService.Getting.csproj", "{A21532D2-59C0-46B0-BD67-73289C095C7E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Geetting.SpysOne", "ProxyService.Geetting.SpysOne\ProxyService.Geetting.SpysOne.csproj", "{2DA91CC4-AE0C-45D9-9502-600931846FD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Geetting.TextSpysOne", "ProxyService.Geetting.TextSpysOne\ProxyService.Geetting.TextSpysOne.csproj", "{2DA91CC4-AE0C-45D9-9502-600931846FD2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService", "ProxyService\ProxyService.csproj", "{5E31D769-AFBE-455E-A783-B6A7AE60D86C}"
 EndProject
@@ -28,7 +28,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Getting", "Getting", "{ABCE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Checking.Site", "ProxyService.Checking.Site\ProxyService.Checking.Site.csproj", "{F143EF63-8BD0-4BF3-B585-59FD6E0176F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyService.Getting.ProxyOrg", "ProxyService.Getting.ProxyOrg\ProxyService.Getting.ProxyOrg.csproj", "{4DF039D6-2456-4125-8423-64231181BF66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Getting.ProxyOrg", "ProxyService.Getting.ProxyOrg\ProxyService.Getting.ProxyOrg.csproj", "{4DF039D6-2456-4125-8423-64231181BF66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyService.Getting.HttpsSpysOne", "ProxyService.Getting.HttpsSpysOne\ProxyService.Getting.HttpsSpysOne.csproj", "{486E70AB-4CBC-4614-8A3F-B9C29DDA335B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +74,10 @@ Global
 		{4DF039D6-2456-4125-8423-64231181BF66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DF039D6-2456-4125-8423-64231181BF66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DF039D6-2456-4125-8423-64231181BF66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{486E70AB-4CBC-4614-8A3F-B9C29DDA335B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{486E70AB-4CBC-4614-8A3F-B9C29DDA335B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{486E70AB-4CBC-4614-8A3F-B9C29DDA335B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{486E70AB-4CBC-4614-8A3F-B9C29DDA335B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{6C5CB728-DAE8-438F-A55D-57CC0A21BB50} = {7140D692-5E19-4E6B-BB59-F6DC559B3A52}
 		{F143EF63-8BD0-4BF3-B585-59FD6E0176F3} = {7140D692-5E19-4E6B-BB59-F6DC559B3A52}
 		{4DF039D6-2456-4125-8423-64231181BF66} = {ABCE6EB7-5CCD-4DB7-836B-50A3F53E7B9A}
+		{486E70AB-4CBC-4614-8A3F-B9C29DDA335B} = {ABCE6EB7-5CCD-4DB7-836B-50A3F53E7B9A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91C8F68B-9835-43BE-AD9C-3138E7279C1B}

@@ -16,7 +16,7 @@ namespace ProxyService.Database.Migrations
                 STARTS now()
                 DO
                 UPDATE proxies 
-                SET proxies.IsDeleted = 1, Modified = NOW()
+                SET proxies.IsDeleted = 1
                 WHERE 
                     proxies.Id IN (SELECT ProxyId FROM dead_proxiers);
             ");
@@ -27,7 +27,7 @@ namespace ProxyService.Database.Migrations
                 STARTS now()
                 DO
                 UPDATE proxies 
-                SET proxies.IsDeleted = 0, Modified = NOW()
+                SET proxies.IsDeleted = 0, LastChecked = NOW()
                 WHERE 
                     proxies.Id IN (SELECT ProxyId FROM reborn_proxies);
             ");

@@ -16,7 +16,6 @@ namespace ProxyService.Database
                 entity.HasKey(p => p.Id);
                 entity.Property(p => p.Id).ValueGeneratedOnAdd();
                 entity.Property(p => p.Created).ValueGeneratedOnAdd();
-                entity.Property(p => p.Modified).ValueGeneratedOnAddOrUpdate();
                 entity.HasIndex(p => new { p.Ip, p.Port }).IsUnique();
                 entity.Ignore(p => p.IpPort);
             });
@@ -30,8 +29,9 @@ namespace ProxyService.Database
                 entity.HasIndex(gm => gm.Name).IsUnique();
 
                 entity.HasData(
-                    new GettingMethod() { Id = 1, Name = "SpysOne", Description = "Downloads ~400 proxies from txt file", IsDisabled = false },
-                    new GettingMethod() { Id = 2, Name = "ProxyOrg", Description = "Downloads ~700 proxies from 4 html sub-pages", IsDisabled = false }
+                    new GettingMethod() { Id = 1, Name = "TextSpysOne", Description = "Downloads ~400 proxies from txt file", IsDisabled = false },
+                    new GettingMethod() { Id = 2, Name = "HttpsSpysOne", Description = "Downloads 500 ssl proxies from html page", IsDisabled = false },
+                    new GettingMethod() { Id = 3, Name = "ProxyOrg", Description = "Downloads ~700 proxies from 4 html sub-pages", IsDisabled = false }
                 );
             });
 
@@ -44,9 +44,8 @@ namespace ProxyService.Database
 
                 entity.HasData(
                     new CheckingMethod() { Id = 1, Name = "Ping", Description = "Tcp", IsDisabled = false },
-                    new CheckingMethod() { Id = 2, Name = "Site", Description = "Https", TestTarget = "https://www.proxy-listen.de/azenv.php", IsDisabled = false },
-                    new CheckingMethod() { Id = 3, Name = "Site", Description = "Http", TestTarget = "http://azenv.net/", IsDisabled = false },
-                    new CheckingMethod() { Id = 4, Name = "Site", Description = "Instagram", TestTarget = "https://www.instagram.com/", IsDisabled = false }
+                    new CheckingMethod() { Id = 2, Name = "Site", Description = "Https", TestTarget = "https://wtfismyip.com/text", IsDisabled = false },
+                    new CheckingMethod() { Id = 3, Name = "Site", Description = "Http", TestTarget = "http://ifconfig.io/ip", IsDisabled = false }
                 );
             });
 
