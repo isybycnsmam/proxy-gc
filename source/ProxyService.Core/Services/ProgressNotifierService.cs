@@ -32,7 +32,7 @@ namespace ProxyService.Core.Services
                     _logger.LogInformation(message, Math.Round(Progress));
                     await Task.Delay(delay, ct);
                 }
-            });
+            }).ContinueWith(_ => _cts.Dispose());
         }
 
         public void StopNotifying()

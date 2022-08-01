@@ -1,9 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using ProxyService.Database;
-using ProxyService.Configs;
 using ProxyService.Getting;
 using ProxyService.Getting.TextSpysOne;
 using ProxyService.Getting.Interfaces;

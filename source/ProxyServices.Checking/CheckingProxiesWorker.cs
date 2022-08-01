@@ -11,7 +11,7 @@ namespace ProxyService.Checking
 {
     public class CheckingProxiesWorker : BackgroundService
     {
-        private readonly TimeSpan RUN_DELAY = TimeSpan.FromHours(1);
+        private readonly TimeSpan RUN_DELAY = TimeSpan.FromMinutes(30);
 
         private readonly ILogger<CheckingProxiesWorker> _logger;
         private readonly IEnumerable<IProxiesChecker> _proxiesCheckers;
