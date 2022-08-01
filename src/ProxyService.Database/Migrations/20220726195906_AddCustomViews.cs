@@ -10,7 +10,7 @@ namespace ProxyService.Database.Migrations
         {
             migrationBuilder.Sql(@"
                 CREATE VIEW last_4_runs AS
-                (SELECT 
+                SELECT 
                     checking_runs.Id AS RunId 
                 FROM checking_runs 
                 WHERE 
@@ -19,16 +19,16 @@ namespace ProxyService.Database.Migrations
                     (SELECT COUNT(*) FROM checking_runs) > 4
                 ORDER BY checking_runs.Created DESC 
                 LIMIT 4 
-                OFFSET 1)
+                OFFSET 1
             ");
 
             migrationBuilder.Sql(@"
                 CREATE VIEW checking_sessions_from_last_4_runs AS
-                (SELECT 
+                SELECT 
                     checking_method_sessions.Id AS SessionId
                 FROM checking_method_sessions 
                 WHERE 
-                    checking_method_sessions.CheckingRunId IN (SELECT * FROM last_4_runs)) AND
+                    checking_method_sessions.CheckingRunId IN (SELECT * FROM last_4_runs) AND
                     checking_method_sessions.Ignore = 0
             ");
 
@@ -50,7 +50,7 @@ namespace ProxyService.Database.Migrations
 
             migrationBuilder.Sql(@"
                 CREATE VIEW reborn_proxies as
-                (SELECT 
+                SELECT 
                     checking_results.ProxyId as ProxyId
                 FROM checking_results 
                 INNER JOIN proxies ON proxies.Id = checking_results.ProxyId
@@ -58,7 +58,7 @@ namespace ProxyService.Database.Migrations
                     checking_results.CheckingMethodSessionId IN (SELECT * FROM checking_sessions_from_last_4_runs) AND 
                     checking_results.Result = 1 AND
                     proxies.IsDeleted = 1
-                GROUP BY checking_results.ProxyId)
+                GROUP BY checking_results.ProxyId
             ");
         }
 
