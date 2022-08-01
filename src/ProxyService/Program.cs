@@ -15,9 +15,6 @@ using ProxyService.Checking.Site;
 using ProxyService.Getting.ProxyOrg;
 using ProxyService.Getting.HttpsSpysOne;
 
-var config = JsonConvert.DeserializeObject<Config>(
-    File.ReadAllText("appsettings.json"));
-
 var host = Host.CreateDefaultBuilder(args)
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(builder =>
@@ -35,10 +32,11 @@ var host = Host.CreateDefaultBuilder(args)
     {
         services.AddHttpClient();
 
-        services.AddDbContext<ProxiesDbContext>(options => 
+         var dbConfigUration = hostContext.Configuration.GetSection("Database");
+        services.AddDbContext<ProxiesDbContext>(options =>
             options.UseMySql(
-                config.Database.ConnectionString, 
-                new MySqlServerVersion(config.Database.ServerVersion)));
+                dbConfigUration["ConnectionString"],
+                new MySqlServerVersion(dbConfigUration["ServerVersion"])));
 
         services.AddHostedService<GettingProxiesWorker>();
         services.AddHostedService<CheckingProxiesWorker>();
