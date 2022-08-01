@@ -11,11 +11,13 @@ namespace ProxyService.Database.Migrations
             migrationBuilder.Sql(@"
                 CREATE VIEW last_4_runs AS
                 (SELECT 
-                    proxy_service.checking_runs.Id AS RunId 
-                FROM proxy_service.checking_runs 
+                    checking_runs.Id AS RunId 
+                FROM checking_runs 
+                WHERE 
+                    checking_runs.Ignore = 0
                 HAVING 
                     (SELECT COUNT(*) FROM checking_runs) > 4
-                ORDER BY proxy_service.checking_runs.Created DESC 
+                ORDER BY checking_runs.Created DESC 
                 LIMIT 4 
                 OFFSET 1)
             ");
@@ -23,10 +25,11 @@ namespace ProxyService.Database.Migrations
             migrationBuilder.Sql(@"
                 CREATE VIEW checking_sessions_from_last_4_runs AS
                 (SELECT 
-                    proxy_service.checking_method_sessions.Id AS SessionId
-                FROM proxy_service.checking_method_sessions 
+                    checking_method_sessions.Id AS SessionId
+                FROM checking_method_sessions 
                 WHERE 
-                    proxy_service.checking_method_sessions.CheckingRunId IN (SELECT * FROM proxy_service.last_4_runs))
+                    checking_method_sessions.CheckingRunId IN (SELECT * FROM last_4_runs)) AND
+                    checking_method_sessions.Ignore = 0
             ");
 
             migrationBuilder.Sql(@"
@@ -38,6 +41,7 @@ namespace ProxyService.Database.Migrations
                 WHERE 
                     checking_results.CheckingMethodSessionId IN (SELECT * FROM checking_sessions_from_last_4_runs) AND 
                     checking_results.Result = 0 AND
+                    checking_results.Ignore = 0 AND
                     proxies.IsDeleted = 0
                 GROUP BY checking_results.ProxyId 
                 HAVING 
