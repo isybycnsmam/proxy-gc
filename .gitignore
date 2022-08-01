@@ -398,6 +398,7 @@ FodyWeavers.xsd
 *.sln.iml
 .editorconfig
 source/ProxyService/appsettings.Development.json
+source/ProxyService/appsettings.Production.json
 .vscode/settings.json
 .vscode/tasks.json
 .vscode/launch.json
