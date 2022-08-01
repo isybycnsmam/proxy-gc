@@ -10,7 +10,7 @@ then
 fi
 
 echo "Publishing"
-cd ../src/ProxyService
+cd ../source/ProxyService
 dotnet publish -c Release -r linux-arm64 -o ../../publish --no-self-contained
 
 echo "Starting proxy-gc service"
