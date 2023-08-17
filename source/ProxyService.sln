@@ -8,29 +8,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Database", "ProxyService.Database\ProxyService.Database.csproj", "{2ED6D552-70C4-4AB6-8E5C-6A8A77D30C36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService", "ProxyService\ProxyService.csproj", "{5E31D769-AFBE-455E-A783-B6A7AE60D86C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Core", "ProxyService.Core\ProxyService.Core.csproj", "{53B9DBAF-21E4-4292-B4B5-A4466C30AFE7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyServices.Checking", "ProxyServices.Checking\ProxyServices.Checking.csproj", "{15F6180D-548C-4A2F-945F-D5CB938B80BC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Getting", "ProxyService.Getting\ProxyService.Getting.csproj", "{A21532D2-59C0-46B0-BD67-73289C095C7E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Geetting.TextSpysOne", "ProxyService.Geetting.TextSpysOne\ProxyService.Geetting.TextSpysOne.csproj", "{2DA91CC4-AE0C-45D9-9502-600931846FD2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService", "ProxyService\ProxyService.csproj", "{5E31D769-AFBE-455E-A783-B6A7AE60D86C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Checking.Ping", "ProxyService.Checking.Ping\ProxyService.Checking.Ping.csproj", "{6C5CB728-DAE8-438F-A55D-57CC0A21BB50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Database", "ProxyService.Database\ProxyService.Database.csproj", "{2ED6D552-70C4-4AB6-8E5C-6A8A77D30C36}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Checking", "Checking", "{7140D692-5E19-4E6B-BB59-F6DC559B3A52}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Getting", "Getting", "{ABCE6EB7-5CCD-4DB7-836B-50A3F53E7B9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Checking", "ProxyService.Checking\ProxyService.Checking.csproj", "{15F6180D-548C-4A2F-945F-D5CB938B80BC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Checking.Ping", "ProxyService.Checking.Ping\ProxyService.Checking.Ping.csproj", "{6C5CB728-DAE8-438F-A55D-57CC0A21BB50}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Checking.Site", "ProxyService.Checking.Site\ProxyService.Checking.Site.csproj", "{F143EF63-8BD0-4BF3-B585-59FD6E0176F3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Getting", "Getting", "{ABCE6EB7-5CCD-4DB7-836B-50A3F53E7B9A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Getting", "ProxyService.Getting\ProxyService.Getting.csproj", "{A21532D2-59C0-46B0-BD67-73289C095C7E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Getting.HttpsSpysOne", "ProxyService.Getting.HttpsSpysOne\ProxyService.Getting.HttpsSpysOne.csproj", "{486E70AB-4CBC-4614-8A3F-B9C29DDA335B}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Getting.ProxyOrg", "ProxyService.Getting.ProxyOrg\ProxyService.Getting.ProxyOrg.csproj", "{4DF039D6-2456-4125-8423-64231181BF66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyService.Getting.HttpsSpysOne", "ProxyService.Getting.HttpsSpysOne\ProxyService.Getting.HttpsSpysOne.csproj", "{486E70AB-4CBC-4614-8A3F-B9C29DDA335B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyService.Getting.TextSpysOne", "ProxyService.Getting.TextSpysOne\ProxyService.Getting.TextSpysOne.csproj", "{2DA91CC4-AE0C-45D9-9502-600931846FD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -20,14 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProxyService.Checking.Ping\ProxyService.Checking.Ping.csproj" />
-    <ProjectReference Include="..\ProxyService.Checking.Site\ProxyService.Checking.Site.csproj" />
     <ProjectReference Include="..\ProxyService.Database\ProxyService.Database.csproj" />
-    <ProjectReference Include="..\ProxyService.Geetting.TextSpysOne\ProxyService.Geetting.TextSpysOne.csproj" />
+    <ProjectReference Include="..\ProxyService.Getting\ProxyService.Getting.csproj" />
+    <ProjectReference Include="..\ProxyService.Getting.TextSpysOne\ProxyService.Getting.TextSpysOne.csproj" />
     <ProjectReference Include="..\ProxyService.Getting.HttpsSpysOne\ProxyService.Getting.HttpsSpysOne.csproj" />
     <ProjectReference Include="..\ProxyService.Getting.ProxyOrg\ProxyService.Getting.ProxyOrg.csproj" />
-    <ProjectReference Include="..\ProxyService.Getting\ProxyService.Getting.csproj" />
-    <ProjectReference Include="..\ProxyServices.Checking\ProxyServices.Checking.csproj" />
+    <ProjectReference Include="..\ProxyService.Checking\ProxyService.Checking.csproj" />
+    <ProjectReference Include="..\ProxyService.Checking.Ping\ProxyService.Checking.Ping.csproj" />
+    <ProjectReference Include="..\ProxyService.Checking.Site\ProxyService.Checking.Site.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,17 +1,17 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using ProxyService.Database;
-using ProxyService.Getting;
-using ProxyService.Getting.TextSpysOne;
-using ProxyService.Getting.Interfaces;
+using ProxyService.Checking;
 using ProxyService.Checking.Interfaces;
 using ProxyService.Checking.Ping;
-using ProxyService.Checking;
-using ProxyService.Core.Services;
 using ProxyService.Checking.Site;
-using ProxyService.Getting.ProxyOrg;
+using ProxyService.Core.Services;
+using ProxyService.Database;
+using ProxyService.Getting;
 using ProxyService.Getting.HttpsSpysOne;
+using ProxyService.Getting.Interfaces;
+using ProxyService.Getting.ProxyOrg;
+using ProxyService.Getting.TextSpysOne;
 
 var host = Host.CreateDefaultBuilder(args)
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
@@ -30,11 +30,11 @@ var host = Host.CreateDefaultBuilder(args)
     {
         services.AddHttpClient();
 
-         var dbConfigUration = hostContext.Configuration.GetSection("Database");
+        var dbConfiguration = hostContext.Configuration.GetSection("Database");
         services.AddDbContext<ProxiesDbContext>(options =>
             options.UseMySql(
-                dbConfigUration["ConnectionString"],
-                new MySqlServerVersion(dbConfigUration["ServerVersion"])));
+                dbConfiguration["ConnectionString"],
+                new MySqlServerVersion(dbConfiguration["ServerVersion"])));
 
         services.AddHostedService<GettingProxiesWorker>();
         services.AddHostedService<CheckingProxiesWorker>();

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProxyServices.Checking\ProxyServices.Checking.csproj" />
+    <ProjectReference Include="..\ProxyService.Checking\ProxyService.Checking.csproj" />
   </ItemGroup>
 
 </Project>
