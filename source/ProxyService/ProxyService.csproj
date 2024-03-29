@@ -1,33 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-ProxyService-58C0982B-B7EB-476E-B7A7-FCC2BAE16F2C</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-	  <PackageReference Include="Autofac" Version="6.4.0" />
-	  <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.6">
+	  <PackageReference Include="Autofac" Version="8.0.0" />
+	  <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.3">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
-	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-	  <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+	  <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ProxyService.Database\ProxyService.Database.csproj" />
     <ProjectReference Include="..\ProxyService.Getting\ProxyService.Getting.csproj" />
-    <ProjectReference Include="..\ProxyService.Getting.TextSpysOne\ProxyService.Getting.TextSpysOne.csproj" />
-    <ProjectReference Include="..\ProxyService.Getting.HttpsSpysOne\ProxyService.Getting.HttpsSpysOne.csproj" />
-    <ProjectReference Include="..\ProxyService.Getting.ProxyOrg\ProxyService.Getting.ProxyOrg.csproj" />
     <ProjectReference Include="..\ProxyService.Checking\ProxyService.Checking.csproj" />
-    <ProjectReference Include="..\ProxyService.Checking.Ping\ProxyService.Checking.Ping.csproj" />
-    <ProjectReference Include="..\ProxyService.Checking.Site\ProxyService.Checking.Site.csproj" />
   </ItemGroup>
 
   <ItemGroup>

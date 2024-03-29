@@ -1,9 +1,8 @@
-﻿namespace ProxyService.Core.Enums
+﻿namespace ProxyService.Core.Enums;
+
+[Flags]
+public enum ProxyType
 {
-    [Flags]
-    public enum ProxyType
-    {
-        Http = 1,
-        Https = 2
-    }
+    Http = 1,
+    Https = 2
 }
