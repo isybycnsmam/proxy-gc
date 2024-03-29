@@ -5,12 +5,13 @@ using System.Diagnostics;
 
 namespace ProxyService.Checking.Site;
 
+#pragma warning disable SYSLIB0014 // In order to test multiple proxies, we need to use the obsolete HttpWebRequest class
+
 public class SiteProxiesChecker : IProxiesChecker
 {
     public string Name => "Site";
 
-    // TODO: Update obsolete method
-    public CheckingResult TestProxy(Proxy proxy, CheckingMethod checkingMethod, int checkingSessionId)
+    public CheckingResult TestProxy(Proxy? proxy, CheckingMethod checkingMethod, int checkingSessionId)
     {
         if (string.IsNullOrEmpty(checkingMethod.TestTarget))
             throw new InvalidOperationException("Invalid configuration of checking method id: {checkingMethod.Id}. TestTarget is null or empty");
