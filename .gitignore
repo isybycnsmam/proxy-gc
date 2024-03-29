@@ -403,3 +403,4 @@ source/ProxyService/appsettings.Production.json
 .vscode/tasks.json
 .vscode/launch.json
 .editorconfig
+source/.vscode/settings.json

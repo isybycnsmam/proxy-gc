@@ -1,14 +1,13 @@
-﻿namespace ProxyService.Core.Models
+﻿namespace ProxyService.Core.Models;
+
+public sealed class CheckingMethod
 {
-    public sealed class CheckingMethod
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public string Name { get; set; }
-        public string? TestTarget { get; set; }
-        public string Description { get; set; }
-        public bool IsDisabled { get; set; }
+    public string Name { get; set; }
+    public string TestTarget { get; set; }
+    public string Description { get; set; }
+    public bool IsDisabled { get; set; }
 
-        public List<CheckingMethodSession> CheckingMethodSessions { get; set; }
-    }
+    public List<CheckingSession> CheckingSessions { get; set; }
 }

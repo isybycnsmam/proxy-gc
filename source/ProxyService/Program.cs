@@ -1,17 +1,20 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using ProxyService.Database;
-using ProxyService.Getting;
-using ProxyService.Getting.TextSpysOne;
-using ProxyService.Getting.Interfaces;
+using ProxyService;
+using ProxyService.Checking;
 using ProxyService.Checking.Interfaces;
 using ProxyService.Checking.Ping;
-using ProxyService.Checking;
-using ProxyService.Core.Services;
 using ProxyService.Checking.Site;
-using ProxyService.Getting.ProxyOrg;
+using ProxyService.Core.Interfaces;
+using ProxyService.Core.Services;
+using ProxyService.Database;
+using ProxyService.Database.Repositories;
+using ProxyService.Getting;
 using ProxyService.Getting.HttpsSpysOne;
+using ProxyService.Getting.Interfaces;
+using ProxyService.Getting.ProxyOrg;
+using ProxyService.Getting.TextSpysOne;
 
 var host = Host.CreateDefaultBuilder(args)
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
@@ -24,20 +27,31 @@ var host = Host.CreateDefaultBuilder(args)
         builder.RegisterType<PingProxiesChecker>().As<IProxiesChecker>();
         builder.RegisterType<SiteProxiesChecker>().As<IProxiesChecker>();
 
-        builder.RegisterType<ProgressNotifierService>();
+        builder.RegisterType<ConsoleProgressNotifierService>().As<IProgressNotifierService>();
+
+        builder.RegisterType<CheckingResultsRepository>();
+        builder.RegisterType<CheckingRunsRepository>();
+        builder.RegisterType<CheckingSessionsRepository>();
+        builder.RegisterType<CheckingMethodsRepository>();
+        builder.RegisterType<GettingMethodsRepository>();
+        builder.RegisterType<ProxiesRepository>();
+
+        builder.RegisterType<CheckingProxiesProcedure>();
+        builder.RegisterType<GettingProxiesProcedure>();
     })
     .ConfigureServices((hostContext, services) =>
     {
         services.AddHttpClient();
 
-         var dbConfigUration = hostContext.Configuration.GetSection("Database");
+        var dbConfiguration = hostContext.Configuration.GetSection("Database");
         services.AddDbContext<ProxiesDbContext>(options =>
             options.UseMySql(
-                dbConfigUration["ConnectionString"],
-                new MySqlServerVersion(dbConfigUration["ServerVersion"])));
+                dbConfiguration["ConnectionString"],
+                new MySqlServerVersion(dbConfiguration["ServerVersion"])),
+            ServiceLifetime.Transient);
 
-        services.AddHostedService<GettingProxiesWorker>();
-        services.AddHostedService<CheckingProxiesWorker>();
+        services.AddHostedService<ProcedureWorker<CheckingProxiesProcedure>>();
+        services.AddHostedService<ProcedureWorker<GettingProxiesProcedure>>();
     })
     .Build();
 

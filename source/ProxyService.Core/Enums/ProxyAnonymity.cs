@@ -1,9 +1,8 @@
-﻿namespace ProxyService.Core.Enums
+﻿namespace ProxyService.Core.Enums;
+
+public enum ProxyAnonymity
 {
-    public enum ProxyAnonymity
-    {
-        None,
-        Anonymous,
-        HighAnonymous,
-    }
+    None,
+    Anonymous,
+    HighAnonymous,
 }
