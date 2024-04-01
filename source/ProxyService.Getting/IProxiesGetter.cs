@@ -4,6 +4,6 @@ namespace ProxyService.Getting.Interfaces;
 
 public interface IProxiesGetter
 {
-    public abstract string Name { get; }
-    public Task<List<Proxy>> GetProxiesAsync(CancellationToken cancellationToken);
+    abstract string Name { get; }
+    Task<List<Proxy>> GetProxiesAsync(CancellationToken cancellationToken);
 }
